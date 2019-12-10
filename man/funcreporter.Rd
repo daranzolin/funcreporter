@@ -5,8 +5,7 @@
 \title{Generate a parameterized report from template}
 \usage{
 funcreporter(template_name, output_format = "html_document", output_file,
-  params, remove_copied_template_files = TRUE, view = FALSE,
-  envir = new.env(), ...)
+  params, remove_copied_template_files = TRUE, envir = new.env(), ...)
 }
 \arguments{
 \item{template_name}{Template name from package.}
@@ -18,8 +17,6 @@ funcreporter(template_name, output_format = "html_document", output_file,
 \item{params}{A list of named parameters.}
 
 \item{remove_copied_template_files}{An option to remove copied template files after rendering.}
-
-\item{view}{An option to view the report after rendering.}
 
 \item{envir}{The environment in which the code chunks are to be evaluated during knitting.}
 

@@ -5,7 +5,6 @@
 #' @param output_file The name of the output file. Non-existent directories will be created recursively.
 #' @param params A list of named parameters.
 #' @param remove_copied_template_files An option to remove copied template files after rendering.
-#' @param view An option to view the report after rendering.
 #' @param envir The environment in which the code chunks are to be evaluated during knitting.
 #' @param ... Other options forwarded to rmarkdown::render
 #'
@@ -26,7 +25,6 @@ funcreporter <- function(template_name,
                          output_file,
                          params,
                          remove_copied_template_files = TRUE,
-                         view = FALSE,
                          envir = new.env(),
                          ...) {
 
@@ -49,10 +47,11 @@ funcreporter <- function(template_name,
     envir = envir
     )
   if (remove_copied_template_files) for (i in seq_along(copied_files)) file.remove(copied_files[i])
-  if (view) {
-    if (output_format == "html_document") utils::browseURL(output_file)
-    else system(paste0('open "', output_file, '"'))
-  }
+  # if (view) {
+    # fs::file_show(output_file)
+  #   if (output_format == "html_document") utils::browseURL(output_file)
+  #   else system(paste0('open "', output_file, '"'))
+  # }
 }
 
 template_path <- function(template_name) {
