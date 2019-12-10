@@ -40,7 +40,7 @@ funcreporter(
 
 ## Looping
 
-Now for the real advantage and power behind functional reports: Loops.
+Now for the real advantage and power behind functional reports: *loops.*
 
 ``` r
 library(purrr)
@@ -54,6 +54,6 @@ Feel the power! Three reports for three species isn’t a lot, but how about 50 
 
 ## The Gadget
 
-Use the `funcreporterGadget` for GUI reporting
+Use `funcreporterGadget` for GUI reporting
 
-![](inst/funcreporterGadget.PNG)
+![](inst/funcreporterGadget.png)
