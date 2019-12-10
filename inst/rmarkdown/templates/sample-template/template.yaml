@@ -1,0 +1,4 @@
+name: Sample Template
+description: >
+   A sample template to demonstrate the mechanics of funcreporter
+create_dir: TRUE

@@ -1,0 +1,23 @@
+Package: funcreporter
+Title: Run parameterized Rmarkdown reports with a single function
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "David",
+           family = "Ranzolin",
+           role = c("aut", "cre"),
+           email = "daranzolin@gmail.com")
+Description: Interfacing your reports with functions facilitates flexibility and automation. Extend your 
+  reporting infrastructure with a function that creates any Rmarkdown output.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    here,
+    purrr,
+    fs,
+    rmarkdown,
+    crayon,
+    glue,
+    yaml,
+    utils
+RoxygenNote: 6.1.1

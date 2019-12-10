@@ -1,0 +1,21 @@
+---
+title: "Sample funcreporter Template"
+date: "The Date"
+params:
+  species:
+    input: text
+    label: "Species"
+    value: "setosa"
+---
+
+
+## Example
+
+Starter template for the `funcreporter` package.
+
+```{r}
+s <- params$species
+pd <- iris[iris$Species == s,]
+hist(pd$Sepal.Length, main = paste("Sepal lengths of the", s, "species"))
+```
+
