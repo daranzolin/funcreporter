@@ -52,6 +52,8 @@ walk2(out_files, params, ~funcreporter("report", output_file = .x, params = .y))
 
 Feel the power! Three reports for three species isn’t a lot, but how about 50 reports for 50 clients? Get funky.
 
-## Future work
+## The Gadget
 
-* A Shiny gadget for a GUI interface
+Use the `funcreporterGadget` for GUI reporting
+
+![](inst/funcreporterGadget.PNG)
