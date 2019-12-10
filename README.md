@@ -26,6 +26,8 @@ set_funcreporter_pkg("YOUR_PACKAGE_NAME")
 
 ## Example
 
+`funcreporter` is a wrapper around `rmarkdown::render` that locates package templates and renders ouput to a specified location.
+
 ``` r
 set_funcreporter_pkg("funcreporter")
 funcreporter(
@@ -33,7 +35,6 @@ funcreporter(
   output_format = "html_document", 
   output_file = "versicolor-report.html",
   params = list(species = "versicolor")
-  view = TRUE
   )
 ```
 
