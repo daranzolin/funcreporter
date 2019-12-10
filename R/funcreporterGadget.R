@@ -1,0 +1,94 @@
+#' GUI to Run Parameterized Reports
+#'
+#' @importFrom shiny uiOutput renderUI observeEvent
+#' @export
+funcreporterGadget <- function() {
+
+  param_names <- ""
+
+  ui <- miniUI::miniPage(
+    miniUI::gadgetTitleBar("funcreport Gadget", right = NULL),
+    miniUI::miniContentPanel(
+      shiny::selectInput("template", "Select Template:",
+                         choices = list(dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"))
+                         )
+      ),
+      shiny::actionButton("templateConfirm", "Confirm Template", style = "color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+      shiny::br(),
+      uiOutput("templateParams"),
+      uiOutput("outputFormatInput"),
+      uiOutput("reportNameInput"),
+      uiOutput("keepRmd"),
+      uiOutput("runReport")
+    )
+  )
+
+  server <- function(input, output, session) {
+
+    observeEvent(input$templateConfirm, {
+      template_path <- file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), input$template)
+      skeleton <- grep("skeleton.Rmd$", dir(file.path(template_path, "skeleton"), full.names = TRUE), value = TRUE)
+      tp <- packagedocs::read_rmd_yaml(skeleton)$params
+      param_names <<- names(tp)
+      output$templateParams <- renderUI({
+        uiParams <- vector(mode = "list", length = length(tp))
+        for (i in seq_along(tp)) {
+          tpx <- tp[[i]]
+          if (tpx$input == "select") {
+            uiParams[[i]] <- shiny::selectInput(param_names[i],
+                                                label = tpx$label,
+                                                choices = tpx$choices,
+                                                multiple = tpx$multiple,
+                                                selected = tpx$value)
+          } else if (tpx$input == "text") {
+            uiParams[[i]] <- shiny::textInput(param_names[i],
+                                              label = tpx$label,
+                                              value = tpx$value)
+          } else if (tpx$input == "numeric") {
+            uiParams[[i]] <- shiny::numericInput(param_names[i],
+                                                 label = tpx$label,
+                                                 value = tpx$value)
+          } else if (tpx$input == "date") {
+            uiParams[[i]] <- shiny::dateInput(param_names[i],
+                                              label = tpx$label,
+                                              value = tpx$value)
+          }
+        }
+        do.call(shiny::tagList, uiParams)
+      })
+
+      output$outputFormatInput <- renderUI({
+        selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document"))
+      })
+
+      output$reportNameInput <- renderUI({
+        textInput("reportName", "File Name: ")
+      })
+
+      output$keepRmd <- renderUI({
+        checkboxInput("keepRmdBox", "Keep report files?", value = FALSE)
+      })
+
+      output$runReport <- renderUI({
+        actionButton("report", "Run Report", style = "color: #fff; background-color: #ce3c23; border-color: #2e6da4")
+      })
+    })
+
+    observeEvent(input$report, {
+
+      rv <- shiny::reactiveValuesToList(input)
+      params <- rv[param_names]
+      rtf <- input$keepRmdBox
+      report_name <- input$reportName
+      rtf <- ifelse(rtf, FALSE, TRUE)
+      funcreporter::funcreporter(
+        template_name = input$template,
+        output_format = input$outputFormat,
+        output_file = report_name,
+        params = params,
+        remove_copied_template_files = rtf
+        )
+    })
+  }
+  shiny::runGadget(ui, server)
+}

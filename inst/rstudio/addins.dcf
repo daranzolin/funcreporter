@@ -1,0 +1,4 @@
+Name: funcreporter Gadget
+Description: Run Reports from a Shiny Gadget
+Binding: funcreporterGadget
+Interactive: true
