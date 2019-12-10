@@ -14,8 +14,8 @@ print_report_descriptions <- function() {
   cat("---------------------------------", "\n")
   for (i in seq_along(yaml_files)) {
     y <- yaml::read_yaml(yaml_files[i])
-    cat("Name: ", crayon::bold(y$name), "\n")
-    cat("Description: ", crayon::italic(y$description, ifelse(grepl("\n$", y$description), "", "\n")))
+    cat("Name: ", y$name, "\n")
+    cat("Description: ", y$description, ifelse(grepl("\n$", y$description), "", "\n"))
     cat("Create dir?: ", ifelse(y$create_dir, y$create_dir, FALSE), "\n")
     cat("---------------------------------", "\n")
   }

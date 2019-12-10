@@ -46,7 +46,9 @@ funcreporter <- function(template_name,
     params = params,
     envir = envir
     )
-  if (remove_copied_template_files) for (i in seq_along(copied_files)) file.remove(copied_files[i])
+  if (remove_copied_template_files) {
+    on.exit(for (i in seq_along(copied_files)) file.remove(copied_files[i]))
+  }
   # if (view) {
     # fs::file_show(output_file)
   #   if (output_format == "html_document") utils::browseURL(output_file)

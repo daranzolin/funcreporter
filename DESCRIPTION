@@ -1,5 +1,5 @@
 Package: funcreporter
-Title: Run parameterized Rmarkdown reports with a single function
+Title: Run parameterized Rmarkdown reports with a single function or Shiny gadget.
 Version: 0.0.1
 Authors@R: 
     person(given = "David",
@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "daranzolin@gmail.com")
 Description: Interfacing your reports with functions facilitates flexibility and automation. Extend your 
-  reporting infrastructure with a function that creates any Rmarkdown output.
+  reporting infrastructure with a function and Shiny gadget that creates any Rmarkdown output.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -16,8 +16,9 @@ Imports:
     purrr,
     fs,
     rmarkdown,
-    crayon,
     glue,
     yaml,
-    utils
+    utils,
+    shiny,
+    miniUI
 RoxygenNote: 6.1.1
