@@ -7,13 +7,16 @@ funcreporterGadget <- function() {
   param_names <- ""
 
   ui <- miniUI::miniPage(
-    miniUI::gadgetTitleBar("funcreport Gadget", right = NULL),
+    miniUI::gadgetTitleBar("funcreporter Gadget", right = NULL),
     miniUI::miniContentPanel(
       shiny::selectInput("template", "Select Template:",
                          choices = list(dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"))
                          )
       ),
-      shiny::actionButton("templateConfirm", "Confirm Template", style = "color: #fff; background-color: #337ab7; border-color: #2e6da4"),
+      shiny::actionButton("templateConfirm",
+                          "Confirm Template",
+                          icon = shiny::icon("check-circle"),
+                          style = "color: #fff; background-color: #337ab7; border-color: #2e6da4"),
       shiny::br(),
       uiOutput("templateParams"),
       uiOutput("outputFormatInput"),
@@ -58,19 +61,22 @@ funcreporterGadget <- function() {
       })
 
       output$outputFormatInput <- renderUI({
-        selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document"))
+        shiny::selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document"))
       })
 
       output$reportNameInput <- renderUI({
-        textInput("reportName", "File Name: ")
+        shiny::textInput("reportName", "File Name: ")
       })
 
       output$keepRmd <- renderUI({
-        checkboxInput("keepRmdBox", "Keep report files?", value = FALSE)
+        shiny::checkboxInput("keepRmdBox", "Keep report files?", value = FALSE)
       })
 
       output$runReport <- renderUI({
-        actionButton("report", "Run Report", style = "color: #fff; background-color: #ce3c23; border-color: #2e6da4")
+        shiny::actionButton("report",
+                            "Run Report",
+                            icon = shiny::icon("clipboard-list"),
+                            style = "color: #fff; background-color: #ce3c23; border-color: #2e6da4")
       })
     })
 
