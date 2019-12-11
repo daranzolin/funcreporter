@@ -17,7 +17,6 @@ funcreporterGadget <- function() {
                           "Confirm Template",
                           icon = shiny::icon("check-circle"),
                           style = "color: #fff; background-color: #337ab7; border-color: #2e6da4"),
-      shiny::br(),
       uiOutput("templateParams"),
       uiOutput("outputFormatInput"),
       uiOutput("reportNameInput"),
@@ -41,7 +40,7 @@ funcreporterGadget <- function() {
             uiParams[[i]] <- shiny::selectInput(param_names[i],
                                                 label = tpx$label,
                                                 choices = tpx$choices,
-                                                multiple = tpx$multiple,
+                                                multiple = ifelse(is.null(tpx$multiple), FALSE, tpx$multiple),
                                                 selected = tpx$value)
           } else if (tpx$input == "text") {
             uiParams[[i]] <- shiny::textInput(param_names[i],

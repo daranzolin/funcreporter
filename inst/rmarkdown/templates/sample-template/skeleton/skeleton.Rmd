@@ -2,10 +2,22 @@
 title: "Sample funcreporter Template"
 date: "The Date"
 params:
-  species:
+  plot_title:
     input: text
+    label: "Plot Title"
+    value: ""
+  breaks:
+    input: numeric
+    label: "Hist Breaks"
+    value: 10
+  species:
+    input: select
     label: "Species"
-    value: "setosa"
+    value: any
+    choices:
+      - setosa
+      - versicolor
+      - virginica
 ---
 
 
@@ -16,6 +28,6 @@ Starter template for the `funcreporter` package.
 ```{r}
 s <- params$species
 pd <- iris[iris$Species == s,]
-hist(pd$Sepal.Length, main = paste("Sepal lengths of the", s, "species"))
+hist(pd$Sepal.Length, breaks = params$breaks, main = params$plot_title)
 ```
 

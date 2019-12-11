@@ -7,8 +7,7 @@
 #' print_report_descriptions()
 #' }
 print_report_descriptions <- function() {
-  template_files <- dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), full.names = TRUE, recursive = TRUE)
-  yaml_files <- template_files[grepl("template.yaml$", template_files)]
+  yaml_files <- yaml_files()
   n_templates <- length(yaml_files)
   message(glue::glue("Showing names and descriptions of {n_templates} templates in the {Sys.getenv('FUNCREPORTER_PKG')} package..."))
   cat("---------------------------------", "\n")
@@ -37,4 +36,24 @@ set_funcreporter_pkg <- function(pkg_name) {
   path_to_template <- file.path(.libPaths(), pkg_name, "rmarkdown", "templates")
   Sys.setenv(FUNCREPORTER_PATH_TO_TEMPLATES = path_to_template)
   message(glue::glue("Setting env var FUNCREPORTER_PATH_TO_TEMPLATES={path_to_template}"))
+}
+
+lookup_report_name <- function(template_dir_name) {
+  templates <- dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), full.names = TRUE)
+  templates
+
+}
+
+    template_files <- dir(template_dirs[i], full.names = TRUE)
+    yf <- template_files[grep("template.yaml$", template_files)]
+    y <- yaml::read_yaml(yf)
+    lookup_v[i] <- y$name
+  }
+  lookup_v
+}
+
+yaml_files <- function() {
+  template_files <- dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), full.names = TRUE, recursive = TRUE)
+  out <- template_files[grepl("template.yaml$", template_files)]
+  out
 }
