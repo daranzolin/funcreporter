@@ -6,7 +6,7 @@
 [![Travis build status](https://travis-ci.org/daranzolin/funcreporter.svg?branch=master)](https://travis-ci.org/daranzolin/funcreporter)
 <!-- badges: end -->
 
-The goal of funcreporter is to interface with your parameterized Rmarkdown templates in a more intimiate (and funky) fashion. Namely, via the `funcreporter()` function. This means loops and automation, coding instead of clicking.
+The goal of funcreporter is to interface with your parameterized Rmarkdown templates in a more intimate (and funky) fashion. Namely, via the `funcreporter()` function. This means loops and automation, coding instead of clicking.
 
 ## Installation
 
@@ -32,9 +32,9 @@ set_funcreporter_pkg("YOUR_PACKAGE_NAME")
 ``` r
 set_funcreporter_pkg("funcreporter")
 funcreporter(
-  template_name = "sample-template", 
+  template_name = "Sample Template", 
   output_format = "html_document", 
-  output_file = "versicolor-report.html",
+  output_file = "versicolor-report",
   params = list(species = "versicolor")
   )
 ```
@@ -46,12 +46,12 @@ Now for the real advantage and power behind functional reports: *loops.*
 ``` r
 library(purrr)
 iris_species <- unique(iris$Species)
-out_files <- sprintf("%s-report.html", iris_species)
-params <- map(iris_species, ~list(species = .x))
-walk2(out_files, params, ~funcreporter("report", output_file = .x, params = .y))
+out_files <- sprintf("%s-report", iris_species)
+params <- map(iris_species, ~list(species = .x, breaks = 15))
+walk2(out_files, params, ~funcreporter("Sample Template", output_file = .x, params = .y))
 ```
 
-Feel the power! Three reports for three species isnâ€™t a lot, but how about 50 reports for 50 clients? Get funky.
+Feel the power! Three reports for three species isn't much, but how about 50 reports for 50 clients? Get funky.
 
 ## The Gadget
 
