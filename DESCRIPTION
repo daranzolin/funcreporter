@@ -1,5 +1,5 @@
 Package: funcreporter
-Title: Run parameterized Rmarkdown reports with a single function or Shiny gadget
+Title: Run Parameterized Rmarkdown Reports with a Single Function or Shiny Gadget
 Version: 0.0.1
 Authors@R: 
     person(given = "David",
