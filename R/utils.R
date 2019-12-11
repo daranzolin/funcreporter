@@ -38,22 +38,20 @@ set_funcreporter_pkg <- function(pkg_name) {
   message(glue::glue("Setting env var FUNCREPORTER_PATH_TO_TEMPLATES={path_to_template}"))
 }
 
-lookup_report_name <- function(template_dir_name) {
-  templates <- dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), full.names = TRUE)
-  templates
-
-}
-
-    template_files <- dir(template_dirs[i], full.names = TRUE)
-    yf <- template_files[grep("template.yaml$", template_files)]
-    y <- yaml::read_yaml(yf)
-    lookup_v[i] <- y$name
-  }
-  lookup_v
-}
-
 yaml_files <- function() {
   template_files <- dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), full.names = TRUE, recursive = TRUE)
   out <- template_files[grepl("template.yaml$", template_files)]
   out
+}
+
+report_lookup_vector <- function(template_dir_name) {
+  yf <- yaml_files()
+  template_names <- vector(mode = "character", length = length(yf))
+  template_dirs <- basename(fs::path_dir(yf))
+  for (i in seq_along(yf)) {
+    y <- yaml::read_yaml(yf[i])
+    template_names[i] <- y$name
+  }
+  names(template_dirs) <- template_names
+  template_dirs
 }

@@ -4,15 +4,14 @@
 #' @export
 funcreporterGadget <- function() {
 
+  lookup_v <- report_lookup_vector()
   param_names <- ""
 
   ui <- miniUI::miniPage(
     miniUI::gadgetTitleBar("funcreporter Gadget", right = NULL),
     miniUI::miniContentPanel(
       shiny::selectInput("template", "Select Template:",
-                         choices = list(dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"))
-                         )
-      ),
+                         choices = list(names(lookup_v))),
       shiny::actionButton("templateConfirm",
                           "Confirm Template",
                           icon = shiny::icon("check-circle"),
@@ -28,8 +27,11 @@ funcreporterGadget <- function() {
   server <- function(input, output, session) {
 
     observeEvent(input$templateConfirm, {
-      template_path <- file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), input$template)
-      skeleton <- grep("skeleton.Rmd$", dir(file.path(template_path, "skeleton"), full.names = TRUE), value = TRUE)
+      template_path <- lookup_v[input$template]
+      skeleton <- grep("skeleton.Rmd$",
+                       dir(file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), template_path, "skeleton"),
+                           full.names = TRUE),
+                       value = TRUE)
       tp <- packagedocs::read_rmd_yaml(skeleton)$params
       param_names <<- names(tp)
       output$templateParams <- renderUI({

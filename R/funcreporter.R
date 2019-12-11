@@ -28,7 +28,9 @@ funcreporter <- function(template_name,
                          envir = new.env(),
                          ...) {
 
-  stopifnot(template_name %in% existing_templates())
+  lookup_v <- report_lookup_vector()
+  tn <- lookup_v[template_name]
+  stopifnot(tn %in% existing_templates())
   outdir <- fs::path_dir(output_file)
   if (!outdir == ".") {
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE)
@@ -36,7 +38,7 @@ funcreporter <- function(template_name,
   } else {
     path_to <- here::here()
   }
-  copied_files <- copy_skeleton_files(template_name, path_to)
+  copied_files <- copy_skeleton_files(tn, path_to)
   input <- file.path(path_to, "skeleton.Rmd")
   output_file <- file.path(path_to, output_file)
   rmarkdown::render(
