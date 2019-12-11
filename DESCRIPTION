@@ -8,6 +8,7 @@ Authors@R:
            email = "daranzolin@gmail.com")
 Description: Interfacing your reports with functions provides flexibility and automation. Extend your 
   reporting infrastructure with a function and Shiny gadget that renders any parameterized report in a package.
+Depends: R (>= 3.6.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
