@@ -6,8 +6,8 @@ Authors@R:
            family = "Ranzolin",
            role = c("aut", "cre"),
            email = "daranzolin@gmail.com")
-Description: Interfacing your reports with functions provides flexibility and automation. Extend your 
-  reporting infrastructure with a function and Shiny gadget that renders any parameterized report in a package.
+Description: Extend your reporting infrastructure with a function and Shiny gadget that 
+  renders any parameterized Rmarkdown template within a package.
 Depends: R (>= 3.6.0)
 License: MIT + file LICENSE
 Encoding: UTF-8
