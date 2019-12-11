@@ -15,9 +15,9 @@
 #' library(funcreporter)
 #' set_funcreporter_pkg("funcreporter")
 #' funcreporter(
-#'     template_name = "sample-template",
+#'     template_name = "Sample Template",
 #'     output_format = "html_document",
-#'     output_file = "versicolor-report.html",
+#'     output_file = "versicolor-report",
 #'     params = list(species = "versicolor"))
 #' }
 funcreporter <- function(template_name,
