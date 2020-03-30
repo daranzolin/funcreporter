@@ -29,8 +29,8 @@ funcreporter <- function(template_name,
                          ...) {
 
   lookup_v <- report_lookup_vector()
-  tn <- lookup_v[template_name]
-  stopifnot(tn %in% existing_templates())
+  tn <- lookup_v[which(lookup_v == template_name)]
+  stopifnot(names(tn) %in% existing_templates())
   outdir <- fs::path_dir(output_file)
   if (!outdir == ".") {
     if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE)

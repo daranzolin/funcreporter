@@ -44,7 +44,7 @@ yaml_files <- function() {
   out
 }
 
-report_lookup_vector <- function(template_dir_name) {
+report_lookup_vector <- function() {
   yf <- yaml_files()
   template_names <- vector(mode = "character", length = length(yf))
   template_dirs <- basename(fs::path_dir(yf))
