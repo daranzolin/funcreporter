@@ -4,6 +4,10 @@
 #' @export
 funcreporterGadget <- function() {
 
+  pkg_check <- Sys.getenv("FUNCREPORTER_PKG")
+
+  if (pkg_check == "") stop("Please set your reporting package with set_funcreporter_pkg()", call. = FALSE)
+
   lookup_v <- report_lookup_vector()
   param_names <- ""
 
@@ -11,7 +15,7 @@ funcreporterGadget <- function() {
     miniUI::gadgetTitleBar("funcreporter Gadget", right = NULL),
     miniUI::miniContentPanel(
       shiny::selectInput("template", "Select Template:",
-                         choices = list(names(lookup_v))),
+                         choices = lookup_v),
       shiny::actionButton("templateConfirm",
                           "Confirm Template",
                           icon = shiny::icon("check-circle"),
