@@ -61,8 +61,15 @@ funcreporter <- function(template_name,
 template_path <- function(template_name) {
   file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), template_name, "skeleton")
 }
+
 existing_templates <- function() {
-  dir(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"))
+  yf <- yaml_files()
+  template_names <- vector(mode = "character", length = length(yf))
+  for (i in seq_along(yf)) {
+    y <- yaml::read_yaml(yf[i])
+    template_names[i] <- y$name
+  }
+  template_names
 }
 
 copy_skeleton_files <- function(template_name, path_to) {

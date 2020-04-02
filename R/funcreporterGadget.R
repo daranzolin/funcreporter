@@ -31,7 +31,7 @@ funcreporterGadget <- function() {
   server <- function(input, output, session) {
 
     observeEvent(input$templateConfirm, {
-      template_path <- lookup_v[input$template]
+      template_path <- lookup_v[which(lookup_v == input$template)]
       skeleton <- grep("skeleton.Rmd$",
                        dir(file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), template_path, "skeleton"),
                            full.names = TRUE),
