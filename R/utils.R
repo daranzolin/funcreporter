@@ -34,6 +34,9 @@ set_funcreporter_pkg <- function(pkg_name) {
   Sys.setenv(FUNCREPORTER_PKG = pkg_name)
   message(glue::glue("Setting env var FUNCREPORTER_PKG={pkg_name}"))
   path_to_template <- file.path(.libPaths(), pkg_name, "rmarkdown", "templates")
+  if (length(papath_to_template) > 1) {
+    path_to_template <- path_to_template[1]
+  }
   Sys.setenv(FUNCREPORTER_PATH_TO_TEMPLATES = path_to_template)
   message(glue::glue("Setting env var FUNCREPORTER_PATH_TO_TEMPLATES={path_to_template}"))
 }
