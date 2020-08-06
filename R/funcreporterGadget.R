@@ -66,7 +66,7 @@ funcreporterGadget <- function() {
       })
 
       output$outputFormatInput <- renderUI({
-        shiny::selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document"))
+        shiny::selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document", "word_document"))
       })
 
       output$reportNameInput <- renderUI({

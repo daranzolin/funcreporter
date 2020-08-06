@@ -4,8 +4,15 @@
 \alias{funcreporter}
 \title{Generate a parameterized report from template}
 \usage{
-funcreporter(template_name, output_format = "html_document", output_file,
-  params, remove_copied_template_files = TRUE, envir = new.env(), ...)
+funcreporter(
+  template_name,
+  output_format = "html_document",
+  output_file,
+  params,
+  remove_copied_template_files = TRUE,
+  envir = new.env(),
+  ...
+)
 }
 \arguments{
 \item{template_name}{Template name from package.}
