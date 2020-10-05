@@ -8,7 +8,7 @@ funcreporter(
   template_name,
   output_format = "html_document",
   output_file,
-  params,
+  params = NULL,
   remove_copied_template_files = TRUE,
   envir = new.env(),
   ...

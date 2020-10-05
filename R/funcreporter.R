@@ -23,7 +23,7 @@
 funcreporter <- function(template_name,
                          output_format = "html_document",
                          output_file,
-                         params,
+                         params = NULL,
                          remove_copied_template_files = TRUE,
                          envir = new.env(),
                          ...) {
@@ -41,13 +41,23 @@ funcreporter <- function(template_name,
   copied_files <- copy_skeleton_files(tn, path_to)
   input <- file.path(path_to, "skeleton.Rmd")
   output_file <- file.path(path_to, output_file)
-  rmarkdown::render(
-    input = input,
-    output_format = output_format,
-    output_file = output_file,
-    params = params,
-    envir = envir
+  if (is.null(params)) {
+    rmarkdown::render(
+      input = input,
+      output_format = output_format,
+      output_file = output_file,
+      envir = envir
     )
+  } else {
+    rmarkdown::render(
+      input = input,
+      output_format = output_format,
+      output_file = output_file,
+      params = params,
+      envir = envir
+    )
+  }
+
   if (remove_copied_template_files) {
     on.exit(for (i in seq_along(copied_files)) file.remove(copied_files[i]))
   }
