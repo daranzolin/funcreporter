@@ -38,32 +38,36 @@ funcreporterGadget <- function() {
                        value = TRUE)
       tp <- packagedocs::read_rmd_yaml(skeleton)$params
       param_names <<- names(tp)
-      output$templateParams <- renderUI({
-        uiParams <- vector(mode = "list", length = length(tp))
-        for (i in seq_along(tp)) {
-          tpx <- tp[[i]]
-          if (tpx$input == "select") {
-            uiParams[[i]] <- shiny::selectInput(param_names[i],
+      if (!is.null(tp)) {
+        output$templateParams <- renderUI({
+          uiParams <- vector(mode = "list", length = length(tp))
+          for (i in seq_along(tp)) {
+            tpx <- tp[[i]]
+            if (tpx$input == "select") {
+              uiParams[[i]] <- shiny::selectInput(param_names[i],
+                                                  label = tpx$label,
+                                                  choices = tpx$choices,
+                                                  multiple = ifelse(is.null(tpx$multiple), FALSE, tpx$multiple),
+                                                  selected = tpx$value)
+            } else if (tpx$input == "text") {
+              uiParams[[i]] <- shiny::textInput(param_names[i],
                                                 label = tpx$label,
-                                                choices = tpx$choices,
-                                                multiple = ifelse(is.null(tpx$multiple), FALSE, tpx$multiple),
-                                                selected = tpx$value)
-          } else if (tpx$input == "text") {
-            uiParams[[i]] <- shiny::textInput(param_names[i],
-                                              label = tpx$label,
-                                              value = tpx$value)
-          } else if (tpx$input == "numeric") {
-            uiParams[[i]] <- shiny::numericInput(param_names[i],
-                                                 label = tpx$label,
-                                                 value = tpx$value)
-          } else if (tpx$input == "date") {
-            uiParams[[i]] <- shiny::dateInput(param_names[i],
-                                              label = tpx$label,
-                                              value = tpx$value)
+                                                value = tpx$value)
+            } else if (tpx$input == "numeric") {
+              uiParams[[i]] <- shiny::numericInput(param_names[i],
+                                                   label = tpx$label,
+                                                   value = tpx$value)
+            } else if (tpx$input == "date") {
+              uiParams[[i]] <- shiny::dateInput(param_names[i],
+                                                label = tpx$label,
+                                                value = tpx$value)
+            }
           }
-        }
-        do.call(shiny::tagList, uiParams)
-      })
+          do.call(shiny::tagList, uiParams)
+        })
+      } else {
+        output$templateParams <- shiny::renderText("\n")
+      }
 
       output$outputFormatInput <- renderUI({
         shiny::selectInput("outputFormat", "Output Format:", choices = list("html_document", "pdf_document", "word_document"))
