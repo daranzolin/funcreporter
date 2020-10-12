@@ -21,6 +21,5 @@ Imports:
     yaml,
     utils,
     shiny,
-    miniUI,
-    packagedocs
+    miniUI
 RoxygenNote: 7.1.0
