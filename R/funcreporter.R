@@ -105,6 +105,9 @@ harmonize_params_list_lengths <- function(x) {
   stopifnot(inherits(x, "list"))
   max_length <- max(sapply(x, function(x) length(x)))
   for (i in seq_along(x)) {
+    if (is.factor(x[[i]])) {
+      x[[i]] <- as.character(x[[i]])
+    }
     len <- length(x[[i]])
     if (!len %in% c(1, max_length)) {
       em <- paste("params must be either length 1 or", max_length)
