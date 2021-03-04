@@ -32,7 +32,7 @@ set_funcreporter_pkg("funcreports")
 
 ``` r
 funcreporter(
-  template_name = "Sample Template", 
+  template_name = "Sample 1", 
   output_file = "versicolor-report",
   params = list(species = "versicolor")
   )
@@ -45,7 +45,7 @@ Render more than one report:
 ``` r
 species <- unique(iris$Species)
 funcreporter(
-  template_name = "Sample Template",
+  template_name = "Sample 1",
   output_file = paste0(species, "-report"),
   params = list(species = species, breaks = 15, plot_title = paste(species, "Distribution"))
 )
