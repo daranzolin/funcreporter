@@ -13,24 +13,24 @@ The goal of funcreporter is to interface with your parameterized Rmarkdown templ
 You can install the released version of funcreporter from GitHub with:
 
 ``` r
-remotes::install_github("daranzolin/funcreporter")
+remotes::install_github("ir-sfsu/funcreporter")
 ```
 
 ## Setup
 
-Inform `funcreporter` of your reporting package (this is the package that contains your Rmarkdown templates):
+Inform `funcreporter` of your reporting package (this is the package that contains your Rmarkdown templates). Here we'll use the `funcreports` sample package:
 
 ``` r
+remotes::install_github("daranzolin/funcreports")
 library(funcreporter)
-set_funcreporter_pkg("YOUR_PACKAGE_NAME")
+set_funcreporter_pkg("funcreports")
 ```
 
 ## Example
 
-`funcreporter` is a wrapper around `rmarkdown::render` that locates package templates and renders ouput to a specified location.
+`funcreporter` is a wrapper around `rmarkdown::render` that locates package templates and renders output to your working directory.
 
 ``` r
-set_funcreporter_pkg("funcreporter")
 funcreporter(
   template_name = "Sample Template", 
   output_file = "versicolor-report",
