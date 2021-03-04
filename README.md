@@ -47,7 +47,7 @@ species <- unique(iris$Species)
 funcreporter(
   template_name = "Sample Template",
   output_file = paste0(species, "-report"),
-  params = list(species = species, breaks = 15)
+  params = list(species = species, breaks = 15, plot_title = paste(species, "Distribution"))
 )
 ```
 
