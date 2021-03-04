@@ -28,44 +28,54 @@ funcreporter <- function(template_name,
                          envir = new.env(),
                          ...) {
 
-  lookup_v <- report_lookup_vector()
-  tn <- lookup_v[which(lookup_v == template_name)]
-  stopifnot(names(tn) %in% existing_templates())
-  outdir <- fs::path_dir(output_file)
-  if (!outdir == ".") {
-    if (!dir.exists(outdir)) dir.create(outdir, recursive = TRUE)
-    path_to <- file.path(here::here(), outdir)
-  } else {
-    path_to <- here::here()
-  }
-  copied_files <- copy_skeleton_files(tn, path_to)
-  input <- file.path(path_to, "skeleton.Rmd")
-  output_file <- file.path(path_to, output_file)
-  if (is.null(params)) {
-    rmarkdown::render(
-      input = input,
-      output_format = output_format,
-      output_file = output_file,
-      envir = envir
-    )
-  } else {
-    rmarkdown::render(
-      input = input,
-      output_format = output_format,
-      output_file = output_file,
-      params = params,
-      envir = envir
-    )
+  no_params <- is.null(params)
+  if (!no_params) {
+    params <- harmonize_params_list_lengths(params)
   }
 
+  if (!no_params & length(params) != length(output_file)) {
+    stop("Length of params and output_files must match.", call. = FALSE)
+  }
+
+  lookup_v <- report_lookup_vector()
+  tn <- lookup_v[template_name]
+  stopifnot(names(tn) %in% existing_templates())
+  report_dir <- template_path(tn)
+  output_dir <- here::here()
+  copied_files <- copy_skeleton_files(tn, output_dir)
   if (remove_copied_template_files) {
     on.exit(for (i in seq_along(copied_files)) file.remove(copied_files[i]))
   }
-  # if (view) {
-    # fs::file_show(output_file)
-  #   if (output_format == "html_document") utils::browseURL(output_file)
-  #   else system(paste0('open "', output_file, '"'))
-  # }
+  input <- file.path(report_dir, "skeleton.Rmd")
+  if (no_params) {
+    rmarkdown::render(
+      input = input,
+      output_file = output_file,
+      output_format = output_format,
+      envir = envir,
+      output_dir = output_dir,
+      ...
+    )
+  } else {
+    purrr::walk2(output_file,
+                 params,
+                 ~rmarkdown::render(input = input,
+                                    output_format = output_format,
+                                    output_file = .x,
+                                    params = .y,
+                                    envir = envir,
+                                    ...)
+    )
+
+    # Look, I dont like it either
+    output_pat <- paste(output_file, collapse = "|")
+    output_report_dirs <- dir(pattern = output_pat)
+    output_report_files <- dir(pattern = output_pat,
+                               full.names = TRUE,
+                               recursive = TRUE)
+    purrr::walk(output_report_files, ~fs::file_copy(.x, output_dir))
+    purrr::walk(output_report_dirs, fs::dir_delete)
+  }
 }
 
 template_path <- function(template_name) {
@@ -89,4 +99,20 @@ copy_skeleton_files <- function(template_name, path_to) {
     if (!file.exists(.y)) file.copy(.x, .y)
   })
   return(new_files)
+}
+
+harmonize_params_list_lengths <- function(x) {
+  stopifnot(inherits(x, "list"))
+  max_length <- max(sapply(x, function(x) length(x)))
+  for (i in seq_along(x)) {
+    len <- length(x[[i]])
+    if (!len %in% c(1, max_length)) {
+      em <- paste("params must be either length 1 or", max_length)
+      stop(em, call. = FALSE)
+    }
+    if (len == 1) {
+      x[[i]] <- rep(x[[i]], max_length)
+    }
+  }
+  purrr::transpose(x)
 }
