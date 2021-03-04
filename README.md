@@ -33,22 +33,22 @@ set_funcreporter_pkg("YOUR_PACKAGE_NAME")
 set_funcreporter_pkg("funcreporter")
 funcreporter(
   template_name = "Sample Template", 
-  output_format = "html_document", 
   output_file = "versicolor-report",
   params = list(species = "versicolor")
   )
 ```
 
-## Looping
+## Multiple reports
 
-Now for the real advantage and power behind functional reports: *loops.*
+Render more than one report:
 
 ``` r
-library(purrr)
-iris_species <- unique(iris$Species)
-out_files <- sprintf("%s-report", iris_species)
-params <- map(iris_species, ~list(species = .x, breaks = 15))
-walk2(out_files, params, ~funcreporter("Sample Template", output_file = .x, params = .y))
+species <- unique(iris$Species)
+funcreporter(
+  template_name = "Sample Template",
+  output_file = paste0(species, "-report"),
+  params = list(species = species, breaks = 15)
+)
 ```
 
 Feel the power! Three reports for three species isn't much, but how about 50 reports for 50 clients? Get funky.
