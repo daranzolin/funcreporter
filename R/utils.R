@@ -12,11 +12,16 @@ print_report_descriptions <- function() {
   message(glue::glue("Showing names and descriptions of {n_templates} templates in the {Sys.getenv('FUNCREPORTER_PKG')} package..."))
   cat("---------------------------------", "\n")
   for (i in seq_along(yaml_files)) {
+    yf <- yaml_files[i]
+    s <- fs::path(dirname(yf), "skeleton/skeleton.Rmd")
     y <- yaml::read_yaml(yaml_files[i])
+    param_info <- rmarkdown::yaml_front_matter(s)$params
     cat("Name: ", y$name, "\n")
     cat("Description: ", y$description, ifelse(grepl("\n$", y$description), "", "\n"))
-    cat("Create dir?: ", ifelse(y$create_dir, y$create_dir, FALSE), "\n")
+    cat("Create dir: ", ifelse(y$create_dir, y$create_dir, FALSE), "\n")
+    print_param_info(param_info)
     cat("---------------------------------", "\n")
+
   }
 }
 
@@ -57,4 +62,20 @@ report_lookup_vector <- function() {
   }
   names(template_dirs) <- template_names
   template_dirs
+}
+
+print_param_info <- function(x) {
+  cat("Params:", "\n")
+  for (i in seq_along(x)) {
+    cat(i, ". ", names(x[i]), "\n", sep = "")
+    param <- x[[i]]
+    if (!is.null(param$label)) cat("\t", "Label:", param$label, "\n")
+    if (!is.null(param$value)) cat("\t", "Value:", param$value, "\n")
+    if (!is.null(param$choices)) {
+      cat("\t", "Choices:", "\n")
+      for (choice in param$choices) {
+        cat("\t\t", "*", choice, "\n")
+      }
+    }
+  }
 }

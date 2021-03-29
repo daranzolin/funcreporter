@@ -36,7 +36,6 @@ funcreporterGadget <- function() {
                        dir(file.path(Sys.getenv("FUNCREPORTER_PATH_TO_TEMPLATES"), template_path, "skeleton"),
                            full.names = TRUE),
                        value = TRUE)
-      # tp <- packagedocs::read_rmd_yaml(skeleton)$params
       tp <- rmarkdown::yaml_front_matter(skeleton)$params
       param_names <<- names(tp)
       if (!is.null(tp)) {
