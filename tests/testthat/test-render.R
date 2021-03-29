@@ -1,7 +1,8 @@
 library(funcreporter)
 
-output_file <- "testthat_render.html"
 test_that("funcreporter renders Rmd", {
+  output_file <-"testthat-render.html"
+  on.exit(unlink(output_file))
   set_funcreporter_pkg("funcreporter")
   funcreporter(
     "Sample Template",
@@ -11,4 +12,3 @@ test_that("funcreporter renders Rmd", {
   setwd(here::here())
   expect_true(file.exists(output_file))
 })
-file.remove(output_file)
