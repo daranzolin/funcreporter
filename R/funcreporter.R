@@ -68,14 +68,21 @@ funcreporter <- function(template_name,
     )
 
     # Look, I dont like it either
-    output_pat <- paste(output_file, collapse = "|")
-    output_report_dirs <- dir(pattern = output_pat)
-    output_report_files <- dir(pattern = output_pat,
-                               full.names = TRUE,
-                               recursive = TRUE)
-    purrr::walk(output_report_files, ~fs::file_copy(.x, output_dir))
-    purrr::walk(output_report_dirs, fs::dir_delete)
+    # output_pat <- paste(output_file, collapse = "|")
+    # output_report_dirs <- dir(pattern = output_pat)
+    # output_report_files <- dir(pattern = output_pat,
+    #                            full.names = TRUE,
+    #                            recursive = TRUE)
+    # purrr::walk(output_report_files, ~fs::file_copy(.x, output_dir))
+    # purrr::walk(output_report_dirs, fs::dir_delete)
   }
+  output_pat <- paste(output_file, collapse = "|")
+  output_report_dirs <- dir(pattern = output_pat)
+  output_report_files <- dir(pattern = output_pat,
+                             full.names = TRUE,
+                             recursive = TRUE)
+  purrr::walk(output_report_files, ~fs::file_copy(.x, output_dir))
+  purrr::walk(output_report_dirs, fs::dir_delete)
 }
 
 template_path <- function(template_name) {
